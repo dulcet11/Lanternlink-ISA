@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register - LanternLink</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 50px;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      margin: 10px;
+      padding: 10px;
+      width: 80%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Username" required /><br />
+      <input type="password" id="password" placeholder="Password" required /><br />
+      <label>Select your block:</label><br />
+      <select id="block" required>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+        <option>D</option>
+        <option>E</option>
+        <option>F</option>
+      </select><br /><br />
+      <button type="submit">Register</button>
+    </form>
+    <p id="msg"></p>
+  </div>
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const block = document.getElementById("block").value;
+
+      const res = await fetch("https://lanternlink-backend-1.onrender.com/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password, block })
+      });
+
+      const data = await res.json();
+      document.getElementById("msg").innerText = data.message;
+    });
+  </script>
+</body>
+</html>
