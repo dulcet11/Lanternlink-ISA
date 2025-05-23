@@ -16,7 +16,7 @@ app.get('/',(req,res)=>{
 app.get('/',(req,res)=>{
   res.sendfile(path.join(__dirname,'login.html'));});
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lanternlink', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log("MongoDB connected"))
