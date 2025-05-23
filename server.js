@@ -5,12 +5,12 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 10000;
-const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/lanternlink';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/lanternlink';
 
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect(MONGODB_URI, {
+mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log("Connected to MongoDB"))
@@ -40,6 +40,11 @@ app.post('/api/register', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Registration failed." });
   }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 });
 
 app.listen(PORT, () => {
