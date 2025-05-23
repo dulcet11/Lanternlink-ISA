@@ -1,33 +1,35 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const app = express();
+const path = require('path'); // ensure this is added
 require('dotenv').config();
+
+const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.static(__dirname)); // serve static files like CSS
 
-app.get('/',(req,res)=>{
-  res.send('Lanternlink backend is running');
+// Serve login.html at root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'login.html'));
 });
 
-app.get('/',(req,res)=>{
-  res.sendfile(path.join(__dirname,'login.html'));});
-
+// MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+}).then(() => console.log("✅ MongoDB connected"))
+  .catch(err => console.error("❌ MongoDB connection error:", err));
 
+// Define User model
 const User = mongoose.model('User', new mongoose.Schema({
   username: String,
   password: String,
   block: String
 }));
 
+// Registration endpoint
 app.post('/api/register', async (req, res) => {
   const { username, password, block } = req.body;
   if (!username || !password || !block) {
@@ -38,9 +40,12 @@ app.post('/api/register', async (req, res) => {
     await user.save();
     res.status(200).json({ message: "User registered successfully" });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 });
 
+// Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
