@@ -13,6 +13,9 @@ app.get('/',(req,res)=>{
   res.send('Lanternlink backend is running');
 });
 
+app.get('/',(req,res)=>{
+  res.sendfile(path.join(__dirname,'login.html'));});
+
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lanternlink', {
   useNewUrlParser: true,
   useUnifiedTopology: true
