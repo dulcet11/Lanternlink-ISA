@@ -24,10 +24,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-app.get('/',(req,res)=>{
-  res.send('Lanternlink API is running');
-})
-
 app.post('/api/register', async (req, res) => {
   const { username, password, block } = req.body;
   if (!username || !password || !block) {
@@ -40,11 +36,6 @@ app.post('/api/register', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Registration failed." });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 });
 
 app.listen(PORT, () => {
